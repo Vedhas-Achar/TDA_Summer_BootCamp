@@ -22,26 +22,23 @@ while True:
     mask = cv.inRange(blur, lower_yellow, upper_yellow)
 
     contours, _ = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-    if contours:
-        cnt = max(contours, key=cv.contourArea)
+    for cnt in contours:
         area = cv.contourArea(cnt)
-        if area < 100:
-            continue
+        if 210 < area < 350:
         
-        peri = cv.arcLength(cnt, closed=True)
-        if peri > 0:
-            cir = 4* (np.pi) * (area/ (peri)**2)
+            peri = cv.arcLength(cnt, closed=True)
+            if peri > 0:
+                cir = 4* (np.pi) * (area/ (peri)**2)
+                if 0.65 < cir < 1.2:
+                    (x, y), _= cv.minEnclosingCircle(cnt)
+                    center = (int(x), int(y))
+            
 
-        if 0.65 < cir < 1.2:
-            (x, y), r = cv.minEnclosingCircle(cnt)
-            center = (int(x), int(y))
-            r = int(r)
-
-            cv.circle(frame, center, r, (0,255,0), 2)
-    
-            trail.append(center)
-            if len(trail) > max_trail:
-                trail.pop(0)
+                    cv.circle(frame, center, 10, (0,255,0), 2)
+        
+                    trail.append(center)
+                    if len(trail) > max_trail:
+                        trail.pop(0)
 
     for i in range(1, len(trail)):
         if trail[i-1] is None or trail[i] is None:
