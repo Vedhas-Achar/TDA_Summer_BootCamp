@@ -14,5 +14,5 @@ This script detects and tracks a volleyball in a video using OpenCV. The ball is
 
 ## Output
 - A green circle marks the ball
-- A red trail shows recent motion path
+- A red trail shows recent motion path<br>
 Youtube Video: https://youtu.be/SjksOvPpZyA
